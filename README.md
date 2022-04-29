@@ -54,7 +54,9 @@ Using this approach improves the CI performance for two reasons:
 
 This repo enables Nx Cloud's distributed tasks execution. This is what is going to happen if you say change every single lib in the repo.
 
-One of the agents will start building `shared-components`. While the components are being built, no remotes can be built cause they consume `shared-components` from its dist folder. So other agents will start running unit tests and lint checks. When `shared-components` is built, one agent will start building the about remote, another one will start on cart, etc. When all the remotes are build, some agent is going to build the host, which then can be deployed or used for e2e tests. Note all of this happens transparently without your having to configure anything.
+One of the agents will start building `shared-components`. While the components are being built, no remotes can be built cause they consume `shared-components` from its dist folder. So other agents will start running unit tests and lint checks. When `shared-components` is built, one agent will start building the about remote, another one will start on cart, etc. When all the remotes are build, some agent is going to build the host, which then can be deployed or used for e2e tests. 
+
+_**Note all of this happens transparently without your having to configure anything.**_
 
 As a result, the worst case scenario build time is: `buildOf(shared-components) + buildOf(slowest remote) + buildOf(host)` which in practice ends up being significantly faster than building the whole system (often 3-4 times faster). The average build time (where components haven't changed) gets even faster: `buildOf(average remote) + buildOf(host)`.
 
